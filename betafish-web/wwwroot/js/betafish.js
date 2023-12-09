@@ -1,4 +1,5 @@
 const engine = function () {
+  let moves = []
   /****************************\
    ============================
    
@@ -2071,8 +2072,7 @@ const engine = function () {
           " Ordering:" +
           ((SearchController.fhf / SearchController.fh) * 100).toFixed(2) +
           "%";
-      }
-      console.log(line);
+      }      
     }
 
     SearchController.best = bestMove;
@@ -2293,5 +2293,9 @@ const engine = function () {
     reset: reset,
     gameStatus: gameStatus,
     setThinkingTime: setThinkingTime,
+    getBestMove:getBestMove,
+    fromSQ: fromSQ,
+    toSQ: toSQ,
+    GameBoard: GameBoard
   };
 };
