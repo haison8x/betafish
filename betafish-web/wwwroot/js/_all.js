@@ -109,49 +109,50 @@ const mySquares = {
 };
 
 function safeChessHint() {
-
   if (isThinking || !autoHint) {
-    return false;
+    return false
   }
 
-  isThinking = true;
+  isThinking = true
 
   try {
-    chessHint();
-  }
-  catch (err) {
-
-    console.log(err.message);
+    chessHint()
+  } catch (err) {
+    console.log(err.message)
   }
 
-  isThinking = false;
+  isThinking = false
 }
 
+function autoDetectColor() {
+  let board = jQuery('#board-single')
+  if (board.length > 0) {
+    myColor = board.hasClass('flipped') ? MYCOLOR_BLACK : MYCOLOR_WHITE
+  }
+}
 
 function chessHint() {
-  
-  let pgn = getCurrentPGN();
+  let pgn = getCurrentPGN()
 
   if (checkDuplicatePgn(pgn)) {
-    return false;
+    return false
   }
 
+  resetHighlight()
 
-  resetHighlight();
+  autoDetectColor();
 
-  let fen = convertToFen(pgn);
-  myGame.reset();
+  let fen = convertToFen(pgn)
+  myGame.reset()
   myGame.setFEN(fen)
 
-  const status = myGame.gameStatus();
-
+  const status = myGame.gameStatus()
 
   if (!status.over && myGame.GameBoard.side == myColor) {
-    let hintColor = myGame.GameBoard.side == 0 ? 'WHITE' : 'BLACK';
-    jQuery('.user-username-component').text(hintColor + " is thinking ..................");
-    let bestMove = myGame.getBestMove();
-    let from = myGame.fromSQ(bestMove);
-    let to = myGame.toSQ(bestMove);
+
+    let bestMove = myGame.getBestMove()
+    let from = myGame.fromSQ(bestMove)
+    let to = myGame.toSQ(bestMove)
     myLastHint = mySquares[from] + '->' + mySquares[to]
     jQuery('.user-username-component').text(myLastHint)
     highlightFrom(mySquares[from])
@@ -160,77 +161,59 @@ function chessHint() {
   }
 }
 
-
 function checkDuplicatePgn(pgn) {
   if (pgn == myLastPgn) {
     jQuery('.user-username-component').text(myLastHint)
-    return true;
+    return true
   }
 
-  myLastPgn = pgn;
+  myLastPgn = pgn
 
-  return false;
+  return false
 }
 
-let myGame = new engine();
-myGame.setThinkingTime(5);
-let myChess = new chessModule.chessClass();
-let isThinking = false;
-let $moveToDiv = null;
+let myGame = new engine()
+myGame.setThinkingTime(4)
+let myChess = new chessModule.chessClass()
+let isThinking = false
+let $moveToDiv = null
 let myLastPgn = ''
 let myLastHint = ''
-const MYCOLOR_WHITE = 0;
-const MYCOLOR_BLACK = 1;
-let myColor = MYCOLOR_WHITE;
-let autoHint = false;
+const MYCOLOR_WHITE = 0
+const MYCOLOR_BLACK = 1
+let myColor = MYCOLOR_WHITE
+let autoHint = false
 
-jQuery("#board-layout-controls").off('click')
-jQuery('#board-layout-player-bottom').off('click');
-jQuery('#board-layout-player-top').off('click');
-jQuery('#board-layout-ad').off('click');
+jQuery('#board-layout-controls').off('click')
+jQuery('#board-layout-player-bottom').off('click')
+jQuery('#board-layout-player-top').off('click')
+jQuery('#board-layout-ad').off('click')
 
-jQuery("#board-layout-ad").on('click', function () {
-  autoHint = !autoHint;
+jQuery('#board-layout-ad').on('click', function () {
+  autoHint = !autoHint
 
   if (autoHint) {
-    let hintColor = myColor == 0 ? 'WHITE' : 'BLACK';
-    jQuery('.user-username-component').text("Auto mode. for " + hintColor);
-  }
-  else {
-    jQuery('.user-username-component').text("Manual Mode");
+    let hintColor = myColor == 0 ? 'WHITE' : 'BLACK'
+    jQuery('.user-username-component').text('Auto mode. for ' + hintColor)
+  } else {
+    jQuery('.user-username-component').text('Manual Mode')
   }
 
   return false
 })
 
-jQuery("#board-layout-controls").on('click', function () {
-
-  isThinking = true;
+jQuery('#board-layout-controls').on('click', function () {
+  isThinking = true
 
   try {
-    chessHint();
-  }
-  catch (err) {
-
-    console.log(err.message);
+    chessHint()
+  } catch (err) {
+    console.log(err.message)
   }
 
-  isThinking = false;
-  
+  isThinking = false
+
   return false
 })
 
-
-jQuery('#board-layout-player-bottom').on('click', function () {
-  myColor = MYCOLOR_WHITE;
-  jQuery('.user-username-component').text("WHITE")
-})
-
-jQuery('#board-layout-player-top').on('click', function () {
-
-  myColor = MYCOLOR_BLACK;
-  jQuery('.user-username-component').text("BLACK")
-})
-
-
-let myHintHandle = setInterval(safeChessHint, 500);
+let myHintHandle = setInterval(safeChessHint, 500)
