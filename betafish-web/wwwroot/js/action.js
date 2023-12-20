@@ -13,11 +13,16 @@ function getCurrentPGN() {
     jQuery(e)
       .find('div.node')
       .each(function (i1, e1) {
-        let icon = jQuery(e1).find(".icon-font-chess").data("figurine");
-        let move = jQuery(e1).text()
-        move = (icon || "") + move.trim()
+        let nodes = e1.childNodes;
+        let move = '';
+        for (let node of nodes) {
+          if (node.nodeType === 3) {
+            move += node.nodeValue.trim();
+          } else if (node.nodeType === 1) {
+            move += jQuery(node).data("figurine");
+          }
+        }
         step += move + " "
-
       })
     pgn += step;
     counter++;
@@ -25,6 +30,7 @@ function getCurrentPGN() {
 
   return pgn.trim()
 }
+
 
 
 function toCoordinates(move) {
