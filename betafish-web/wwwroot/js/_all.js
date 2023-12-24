@@ -45,7 +45,8 @@ function getCurrentPGN() {
           if (node.nodeType === 3) {
             move += node.nodeValue.trim();
           } else if (node.nodeType === 1) {
-            move += jQuery(node).data("figurine");
+            let figurine = jQuery(node).data("figurine");
+            move += figurine || "";
           }
         }
         step += move + " "

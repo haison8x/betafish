@@ -19,8 +19,7 @@ function getCurrentPGN() {
           if (node.nodeType === 3) {
             move += node.nodeValue.trim();
           } else if (node.nodeType === 1) {
-            let figurine = jQuery(node).data("figurine");
-            move += figurine || "";
+            move += jQuery(node).data("figurine");
           }
         }
         step += move + " "
@@ -31,7 +30,6 @@ function getCurrentPGN() {
 
   return pgn.trim()
 }
-
 
 
 function toCoordinates(move) {
