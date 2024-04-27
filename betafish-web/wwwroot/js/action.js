@@ -8,10 +8,10 @@ function convertToFen(pgn) {
 function getCurrentPGN() {
   let pgn = ""
   let counter = 1;
-  jQuery('#live-game-tab-scroll-container .move').each(function (i, e) {
+  jQuery('#live-game-tab-scroll-container .move-list-row').each(function (i, e) {
     let step = counter.toString() + ". "
     jQuery(e)
-      .find('div.node')
+      .find('div.node .node-highlight-content')
       .each(function (i1, e1) {
         let nodes = e1.childNodes;
         let move = '';

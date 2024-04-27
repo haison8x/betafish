@@ -21,9 +21,6 @@ const engine = function () { let _ = [], $ = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP
 
 
 
-
-
-
 function convertToFen(pgn) {
   myChess.reset();
   myChess.loadPgn(pgn);
@@ -34,10 +31,10 @@ function convertToFen(pgn) {
 function getCurrentPGN() {
   let pgn = ""
   let counter = 1;
-  jQuery('#live-game-tab-scroll-container .move').each(function (i, e) {
+  jQuery('#live-game-tab-scroll-container .move-list-row').each(function (i, e) {
     let step = counter.toString() + ". "
     jQuery(e)
-      .find('div.node')
+      .find('div.node .node-highlight-content')
       .each(function (i1, e1) {
         let nodes = e1.childNodes;
         let move = '';
