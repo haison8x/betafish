@@ -32,7 +32,8 @@ function getCurrentPGN() {
   let pgn = ""
   let counter = 1;
   jQuery('#live-game-tab-scroll-container .move-list-row').each(function (i, e) {
-    let step = counter.toString() + ". "
+    let moves = ""
+    let foundMoves = false
     jQuery(e)
       .find('div.node .node-highlight-content')
       .each(function (i1, e1) {
@@ -46,9 +47,13 @@ function getCurrentPGN() {
             move += figurine || "";
           }
         }
-        step += move + " "
+        foundMoves = true
+        moves += move + " "
       })
-    pgn += step;
+    if(foundMoves){
+      pgn += counter.toString() + ". " + moves
+    }
+    
     counter++;
   })
 
@@ -147,6 +152,8 @@ function chessHint() {
   autoDetectColor();
 
   let fen = convertToFen(pgn)
+  console.log("pgn="+pgn)
+  console.log("fen="+fen)
   myGame.reset()
   myGame.setFEN(fen)
 
@@ -177,7 +184,7 @@ function checkDuplicatePgn(pgn) {
 }
 
 let myGame = new engine()
-myGame.setThinkingTime(4)
+myGame.setThinkingTime(3)
 let myChess = new chessModule.chessClass()
 let isThinking = false
 let $moveToDiv = null

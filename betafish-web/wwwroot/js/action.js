@@ -5,11 +5,13 @@ function convertToFen(pgn) {
   return myChess.fen();
 }
 
+
 function getCurrentPGN() {
   let pgn = ""
   let counter = 1;
   jQuery('#live-game-tab-scroll-container .move-list-row').each(function (i, e) {
-    let step = counter.toString() + ". "
+    let moves = ""
+    let foundMoves = false
     jQuery(e)
       .find('div.node .node-highlight-content')
       .each(function (i1, e1) {
@@ -23,14 +25,19 @@ function getCurrentPGN() {
             move += figurine || "";
           }
         }
-        step += move + " "
+        foundMoves = true
+        moves += move + " "
       })
-    pgn += step;
+    if(foundMoves){
+      pgn += counter.toString() + ". " + moves
+    }
+    
     counter++;
   })
 
   return pgn.trim()
 }
+
 
 
 
